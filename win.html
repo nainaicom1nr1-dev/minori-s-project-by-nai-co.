@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <style>
+    /* フォント設定（ファイルがないと機能しません） */
+    @font-face {
+      font-family: 'BOSSFONT';
+      src: url('PixelMplus10-Regular.ttf');
+    }
+
+    body {
+      background-color: #1a1a1a; /* 背景を少し明るくすると境界が見えます */
+      margin: 0; 
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #game-container {
+      width: 1180px;
+      height: 664px;
+      background-color: #333; /* 画像がない時のための予備色 */
+      background-image: url('oyasumi.png');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      
+      /* スケール計算：画面に収まるように自動調整 */
+      --scale-x: calc(100vw / 1180);
+      --scale-y: calc(100vh / 664);
+      transform: scale(min(var(--scale-x), var(--scale-y)));
+      
+      /* 重要：縮小してもレイアウト上の専有面積が変わらないよう調整 */
+      flex-shrink: 0; 
+    }
+      @keyframes shyun {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+      h1{ opacity: 0; animation: shyun 1s forwards; }
+
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <!-- ここにゲーム画面の内容 -->
+    <h1 style="color: gold; font-family: 'DotGothic16'; text-align: center; margin-top: 10%;font-size:500%;text-shadow: 0 0 20px yellow;">
+      YOU WIN     
+    </h1>
+  </div>
+</body>
+</html>

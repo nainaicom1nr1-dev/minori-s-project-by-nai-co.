@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <style>
+    /* 1. 外側の宇宙 */
+    body {
+      background-color: black;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; overflow: hidden;
+    }
+
+    /* 2. 16:9の黄金の箱 */
+    #game-container {
+      width: 1180px; height: 664px;
+      position: relative;
+      background-image: url('huruikami.png');
+      background-size: cover; background-position: center;
+      overflow: hidden;
+      transform: scale(min(1, calc(100vw / 1180), calc(100vh / 664)));
+      transform-origin: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+
+    #mute-btn {
+      position: absolute; top: 15px; left: 35px; z-index: 1000;
+      background: rgba(0, 0, 0, 0.5); color: white;
+      border: 1px solid #777; border-radius: 50%;
+      width: 45px; height: 45px; cursor: pointer;
+      font-size: 20px; display: flex; justify-content: center; align-items: center;
+      transition: 0.3s;
+    }
+
+    /* 3. キャラ選択の大きな箱 */
+    .ookina-hako {
+      display: flex; justify-content: center; align-items: center;
+      gap: 60px; padding: 20px;
+      background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+      border-radius: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.8);
+      width: 82%; max-height: 85%;
+    }
+
+    .menyu { text-align: center; flex: 2; }
+    .party-slots { 
+      display: flex; flex-direction: column; gap: 10px; align-items: center; flex: 1;
+      justify-content: flex-start;
+      padding-top: 25px; /* ★さらに少し上に寄せるために数値を増やしました */
+    }
+
+    h2 { font-size: 24px; margin: 5px 0; color: white;font-family: 'DotGothic16', sans-serif; }
+    h3 { font-size: 16px; margin: 5px 0 10px 0; color: white;font-family: 'DotGothic16', sans-serif;}
+
+    img.gazou { width: 115px; cursor: pointer; transition: 0.2s; margin: 2px; }
+    img.gazou:hover { transform: scale(1.1); }
+
+
+/* 選択済みキャラ用のスタイル */
+    .selected {
+      opacity: 0.2 !important;
+      pointer-events: none; /* クリックできないようにする */
+      filter: grayscale(80%); /* 少し白黒にするとより分かりやすいです */
+    }
+
+    .slot {
+      width: 90px; height: 90px;
+      border: 2px dashed #777;
+      display: flex; align-items: center; justify-content: center;
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .slot img { opacity: 1!important; animation: none!important; width: auto; height: 90%; }
+
+    #reset-btn {
+      margin-top: 5px; padding: 5px 15px;
+      background-color: #444; color: white;
+      border: 1px solid #777; border-radius: 5px;
+      cursor: pointer; font-size: 14px; width: 100px;
+      font-family: 'DotGothic16', sans-serif;
+    }
+
+    #shuppatsu-btn {
+      margin-top: 10px; padding: 12px 25px;
+      background-color: #bb92d8; color: black;
+      font-weight: bold; border: none; border-radius: 5px;
+      cursor: pointer; font-size: 18px;font-family: 'DotGothic16', sans-serif;
+      /* ★最初から場所だけ予約しておく */
+      visibility: hidden; 
+      animation: dokun 2s infinite;
+    }
+
+    @keyframes shyun {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .ookina-hako, h2, h3, .gazou, .slot, #reset-btn { opacity: 0; animation: shyun 1s forwards; }
+    .ookina-hako { animation-delay: 0.5s; }
+    h2 { animation-delay: 1s; }
+    h3, .gazou, .slot, #reset-btn { animation-delay: 1.5s; }
+
+    @keyframes dokun {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="game-container">
+    <button id="mute-btn">🔊</button>
+
+    <div class="ookina-hako">
+      <div class="menyu">
+        <h2>仲間とボスに挑む</h2>
+        <h3>どの4人を選ぶ？</h3>
+        <img src="001yusha.png" class="gazou" data-id="1">
+        <img src="004butoka.png" class="gazou" data-id="4">
+        <img src="008murabito.png" class="gazou" data-id="8"><br>
+        <img src="002yume-madoshi.png" class="gazou" data-id="2">
+        <img src="003yujutsushi.png" class="gazou" data-id="3">
+        <img src="007reijutsukai.png" class="gazou" data-id="7"><br>
+        <img src="005gin-madoshi.png" class="gazou" data-id="5">
+        <img src="009okishi.png" class="gazou" data-id="9">
+        <img src="011miko.png" class="gazou" data-id="11"><br>
+        <img src="006kyujutsushi.png" class="gazou" data-id="6">
+        <img src="010yugekika.png" class="gazou" data-id="10">
+        <img src="013tejinashi.png" class="gazou" data-id="13">
+      </div>
+
+      <div class="party-slots">
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <div class="slot"></div>
+        <button id="reset-btn">リセット</button>
+        <button id="shuppatsu-btn">パーティー結成！</button>
+      </div>
+    </div>
+  </div>
+
+<script src="data.js"></script>
+
+  <script>
+
+let selectedIds = [];
+
+    const charaList = document.querySelectorAll('.gazou');
+    const HakoList = document.querySelectorAll('.slot');
+    const resetBtn = document.getElementById('reset-btn');
+    const shuppatsuBtn = document.getElementById('shuppatsu-btn');
+    const ketteiSE = new Audio('kettei.mp3');
+    const kachiSE = new Audio('kachi.mp3');
+    const bgm = new Audio('charaBGM.mp3');
+    bgm.volume = 0.5;
+    const loopStart = 2.6;
+    const loopEnd = 26.5;
+
+    bgm.addEventListener('timeupdate', () => {
+      if (bgm.currentTime >= loopEnd) { bgm.currentTime = loopStart; }
+    });
+
+    function checkParty() {
+      let count = 0;
+      HakoList.forEach(hako => { if (hako.querySelector('img')) count++; });
+      // ★visibility で切り替える
+      shuppatsuBtn.style.visibility = (count === 4) ? "visible" : "hidden";
+    }
+
+    charaList.forEach(chara => {
+      chara.addEventListener('click', () => {
+        for (let hako of HakoList) {
+          if (hako.querySelector('img') === null) {
+            kachiSE.currentTime = 0;
+            kachiSE.play();
+
+/* ★追加：選んだキャラの ID を記録する */
+            const cid = parseInt(chara.getAttribute('data-id'));
+            selectedIds.push(cid);
+
+            const copyImg = chara.cloneNode();
+            copyImg.style.opacity = "1";
+            copyImg.style.width = "auto";
+            copyImg.style.height = "90%";
+            hako.appendChild(copyImg);
+            chara.classList.add('selected');
+            checkParty();
+            return;
+          }
+        }
+      });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      HakoList.forEach(hako => { hako.innerHTML = ""; });
+
+/* ★追加：記録していたIDも空にする */
+      selectedIds = [];
+
+      charaList.forEach(chara => {
+        chara.classList.remove('selected');
+        chara.style.pointerEvents = "auto";
+      });
+      checkParty();
+    });
+
+    shuppatsuBtn.addEventListener('click', () => {
+      ketteiSE.play();
+      bgm.pause();
+
+     /* ★重要：出発の瞬間に「名簿からデータ」を取り出して保存箱に入れる！ */
+      const myPartyData = selectedIds.map(id => {
+        return characterMasterList.find(c => c.id === id);
+      });
+      localStorage.setItem('myParty', JSON.stringify(myPartyData));
+
+      setTimeout(() => { window.location.href = 'map.html'; }, 1500);
+    });
+
+    const muteBtn = document.getElementById('mute-btn');
+    let hasStarted = false;
+    muteBtn.addEventListener('click', () => {
+      if (!hasStarted) {
+        bgm.play();
+        bgm.muted = false;
+        muteBtn.innerText = "🔊";
+        muteBtn.style.backgroundColor = "#bb92d8";
+        muteBtn.style.color = "black";
+        hasStarted = true;
+      } else {
+        bgm.muted = !bgm.muted;
+        muteBtn.innerText = bgm.muted ? "🔇" : "🔊";
+        muteBtn.style.opacity = bgm.muted ? "0.5" : "1";
+      }
+    });
+  </script>
+</body>
+</html>
