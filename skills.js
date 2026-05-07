@@ -2,13 +2,13 @@ const passiveSkills = {
 
   "hero_heals_all": {
     name: "勇者の鼓舞",
-    description: "自身の攻撃後に、自分以外のパーティー全員のHPを3回復する。",
+    description: "自身の攻撃後に、自分以外のパーティー全員のHPを5回復する。",
     trigger: "after_attack",
     execute: (attacker, party) => {
       party.forEach(member => {
         if (member.id !== attacker.id && member.hp > 0) {
-          member.hp = Math.min(member.maxHp, member.hp + 3);
-          console.log(`${member.name}のHPが3回復した！`);
+          member.hp = Math.min(member.maxHp, member.hp + 5);
+          console.log(`${member.name}のHPが5回復した！`);
         }
       });
     }
@@ -30,12 +30,12 @@ const passiveSkills = {
 
   "healer_single_care": {
     name: "癒しの手札",
-    description: "自身の攻撃後、パーティーの誰か1人のHPを10回復する。",
+    description: "自身の攻撃後、パーティーの誰か1人のHPを20回復する。",
     trigger: "after_attack_manual",
     execute: (target) => {
       if (target && target.hp > 0) {
-        target.hp = Math.min(target.maxHp, target.hp + 10);
-        console.log(`${target.name}のHPが10回復した！`);
+        target.hp = Math.min(target.maxHp, target.hp + 20);
+        console.log(`${target.name}のHPが20回復した！`);
       }
     }
   }, // ← カンマを追加
@@ -56,14 +56,14 @@ const passiveSkills = {
 
   "silver_share_kindness": {
     name: "銀の分け合い",
-    description: "自身のHPが半分以下の場合、自分を含めたパーティー全員のHPを3回復する。",
+    description: "自身のHPが半分以下の場合、自分を含めたパーティー全員のHPを10回復する。",
     trigger: "after_attack",
     execute: (attacker, party) => {
       if (attacker.hp <= (attacker.maxHp / 2)) {
-        console.log("魔導士(銀)：お腹が空いたのでみんなでお裾分け！全員のHPを3回復！");
+        console.log("魔導士(銀)：お腹が空いたのでみんなでお裾分け！全員のHPを10回復！");
         party.forEach(member => {
           if (member.hp > 0) {
-            member.hp = Math.min(member.maxHp, member.hp + 3);
+            member.hp = Math.min(member.maxHp, member.hp + 10);
           }
         });
       }
@@ -102,12 +102,12 @@ const passiveSkills = {
 
   "villager_genki_power": {
     name: "元気な一般人",
-    description: "自身のHPが半分以上の場合、自身の攻撃の威力が1.5倍になる。",
+    description: "自身のHPが半分以上の場合、自身の攻撃の威力が2.5倍になる。",
     trigger: "before_damage",
     execute: (attacker) => {
       if (attacker.hp >= (attacker.maxHp / 2)) {
         console.log("村人：元気いっぱいなので、いつもより力が湧いてくる！");
-        return { multiplier: 1.5 };
+        return { multiplier: 2.5 };
       }
       return { multiplier: 1.0 };
     }
@@ -139,12 +139,12 @@ const passiveSkills = {
 
   "miko_sacred_healing": {
     name: "神和ぎの祈り",
-    description: "自身の攻撃後、パーティーの誰か1人のHPを10回復する。",
+    description: "自身の攻撃後、パーティーの誰か1人のHPを20回復する。",
     trigger: "after_attack_manual",
     execute: (target) => {
       if (target && target.hp > 0) {
-        target.hp = Math.min(target.maxHp, target.hp + 10);
-        console.log(`${target.name}のHPが10回復した！`);
+        target.hp = Math.min(target.maxHp, target.hp + 20);
+        console.log(`${target.name}のHPが20回復した！`);
       }
     }
   }, // ← カンマを追加
