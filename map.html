@@ -261,8 +261,6 @@
 }
 
 
-
-
 .shake {
   animation: shake 0.2s ease-in-out 0s 2;
 }
@@ -342,7 +340,7 @@
 <div id="battle-footer">
   <!-- 左側：メッセージボックス（3/4） -->
   <div id="battle-msg-box" class="black-box">
-    <p id="battle-msg-text">ボスは　嫉妬のオーラを　放っている…</p>
+    <p id="battle-msg-text">ボスは　嫉妬のオーラを　放っている……</p>
 
   </div>
   
@@ -609,7 +607,7 @@ document.getElementById('boss-hp-container').style.display = 'block';
   document.getElementById('battle-command-box').style.display = 'none';
 
 // setupBattlefieldの最後に追記
-setBattleMessage("ボスは 嫉妬のオーラを 放っている…");
+setBattleMessage("ボスは 嫉妬のオーラを 放っている……");
 
 // 画面全体に一回限りのクリックイベントを貼る
 const startBattleTrigger = () => {
@@ -619,10 +617,8 @@ const startBattleTrigger = () => {
 window.addEventListener('pointerdown', startBattleTrigger);
 
 
-
   });
 }
-
 
 
 /* --- ③ バトルの実行ロジック --- */
@@ -642,7 +638,6 @@ function setBattleMessage(text) {
 const seKettei = new Audio('kettei.mp3');
 
 // アイテムリストを表示する
-
   function showItemList() {
   if (!isInputPhase || partyMembers[currentInputIndex].hp <= 0) return; 
   seKettei.currentTime = 0;
@@ -680,27 +675,6 @@ const seKettei = new Audio('kettei.mp3');
   commandBox.style.display = 'none';
   itemBox.style.display = 'block';
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 let selectedItemIndex = null; // どのアイテムを使うか一時保存
@@ -856,7 +830,7 @@ function applyHeal(target, amount, skipEcho = false) {
 
 // 弓術士のスキル判定 (skipEchoは無限ループ防止用)
   if (!skipEcho && target.passiveSkill === "archer_kindness_echo" && actualHeal > 0) {
-    setBattleMessage(`${target.name}の 優しさが共鳴した！ 全員に連鎖！`);
+    setBattleMessage(`${target.name}は、みんなに　お返しをした！`);
     
     // 自分以外の味方全員を同じ量回復
     partyMembers.forEach((member, i) => {
@@ -883,7 +857,7 @@ function executeFullTurn() {
           const survivors = partyMembers.filter(m => m.id !== member.id && m.hp > 0);
           if (survivors.length > 0) {
             bossData.hp -= 5;
-            setBattleMessage(`${member.name}は倒れているが、霊獣が 5 のダメージを与えた！`);
+            setBattleMessage(`${member.name}の霊獣が 5 のダメージを与えた！`);
             updateBossHPBar();
             shakeBoss();
           }
@@ -920,7 +894,7 @@ function executeFullTurn() {
         currentAtk = member.atk + member.matk;
       }
       if (member.passiveSkill === "villager_genki_power" && member.hp >= (member.maxHp / 2)) {
-        currentAtk = Math.floor(currentAtk * 1.5);
+        currentAtk = Math.floor(currentAtk * 2.5);
       }
 
       // 武闘家スキル
@@ -929,7 +903,7 @@ function executeFullTurn() {
       if (member.passiveSkill === "butoka_last_resort" && member.hp <= (member.maxHp / 4)) {
         damageMultiplier = 3;
         healAfterAttack = true;
-        setBattleMessage(`${member.name}の 死地への渇望が 発動！`);
+        setBattleMessage(`よく　はたらく${member.name}！`);
       }
 
       // クリティカル判定と追撃フラグ
@@ -949,13 +923,13 @@ function executeFullTurn() {
       bossData.hp -= damage;
       updateBossHPBar();
       shakeBoss();
-      setBattleMessage(`${isCritical ? '気合いたっぷり！' : ''}${member.name}の攻撃！ 魔女に ${damage} のダメージ！`);
+      setBattleMessage(`${isCritical ? '気合いたっぷり！' : ''}${member.name}は、魔女に ${damage} のダメージ！`);
 
       // 攻撃後回復スキル
       if (healAfterAttack) {
         setTimeout(() => {
           member.hp = member.maxHp;
-          setBattleMessage(`${member.name}は 攻撃の反動で 活力を取り戻した！`);
+          setBattleMessage(`${member.name}は 社長の力を借りた！`);
           updateStatusUI(index);
         }, 500);
       }
@@ -978,7 +952,7 @@ function executeFullTurn() {
     if (extraAttacker && extraAttacker.hp > 0 && bossData.hp > 0) {
       const damage = 10;
       bossData.hp -= damage;
-      setBattleMessage(`${extraAttacker.name}の 追撃！ 魔女に ${damage} のダメージ！`);
+      setBattleMessage(`${extraAttacker.name}のおかわり！ ${damage} のダメージ！`);
       updateBossHPBar();
       shakeBoss();
     }
@@ -1006,15 +980,15 @@ function shakeBoss() {
 
 function executeHealSkills(member) {
   if (member.passiveSkill === "hero_heals_all") {
-    partyMembers.forEach((m, i) => { if (m.id !== member.id && m.hp > 0) applyHeal(m,3); });
+    partyMembers.forEach((m, i) => { if (m.id !== member.id && m.hp > 0) applyHeal(m,5); });
   }
   if (member.passiveSkill === "silver_share_kindness" && member.hp <= (member.maxHp / 2) && member.hp > 0) {
-    setBattleMessage(`${member.name}は お裾分けをした！ 全員のHPが 3 回復！`);
-    partyMembers.forEach((m) => applyHeal(m,3));
+    setBattleMessage(`${member.name}は お裾分けをした！ 全員のHPが 10 回復！`);
+    partyMembers.forEach((m) => applyHeal(m,10));
   }
   if ((member.passiveSkill === "healer_single_care" || member.passiveSkill === "miko_sacred_healing") && member.hp > 0) {
     const wounded = partyMembers.filter(m => m.hp > 0).reduce((prev, curr) => (prev.hp < curr.hp) ? prev : curr);
-    if (wounded) applyHeal(wounded,10)
+    if (wounded) applyHeal(wounded,20)
   }
 }
 
