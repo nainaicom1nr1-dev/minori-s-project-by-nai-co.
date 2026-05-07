@@ -32,7 +32,7 @@ const characterMasterList = [
     spd: 12, 
     hit: 95, 
     avd: 5, 
-    crit: 5, 
+    crit: 10, 
     img: "001yusha.png", // ←カンマを追加
     passiveSkill: "hero_heals_all",
     items: [
@@ -55,7 +55,7 @@ const characterMasterList = [
     spd: 9,
     hit: 90,
     avd: 10,
-    crit: 8,
+    crit: 13,
     img: "002yume-madoshi.png", // ←カンマを追加
     passiveSkill: "yume_fujoshi_barrier",
     items: [
@@ -67,16 +67,16 @@ const characterMasterList = [
   { id: 3, name: "癒術師",
     sex: "女",
     attribute: "魔法",
-    maxHp: 80,
+    maxHp: 90,
     hp: 80,
     atk: 4,
     matk: 14,
     def: 7,
-    mdef: 17,
+    mdef: 16,
     spd: 10,
     hit: 95,
     avd: 5,
-    crit: 3,
+    crit: 8,
     img: "003yujutsushi.png", // ←カンマを追加
     passiveSkill: "healer_single_care",
     items: [
@@ -98,7 +98,7 @@ const characterMasterList = [
     spd: 17,
     hit: 90,
     avd: 12,
-    crit: 18,
+    crit: 23,
     img: "004butoka.png", // ←カンマを追加
     passiveSkill: "butoka_last_resort",
     items: [
@@ -120,7 +120,7 @@ const characterMasterList = [
     spd: 12,
     hit: 95,
     avd: 6,
-    crit: 6,
+    crit: 11,
     img: "005gin-madoshi.png", // ←カンマを追加
     passiveSkill: "silver_share_kindness",
     items: [
@@ -142,7 +142,7 @@ const characterMasterList = [
     spd: 14,
     hit: 110,
     avd: 8,
-    crit: 10,
+    crit: 15,
     img: "006kyujutsushi.png", // ←カンマを追加
     passiveSkill: "archer_kindness_echo",
     items: [
@@ -164,7 +164,7 @@ const characterMasterList = [
     spd: 11,
     hit: 95,
     avd: 6,
-    crit: 7,
+    crit: 12,
     img: "007reijutsukai.png", // ←カンマを追加
     passiveSkill: "beast_tamer_auto_attack",
     items: [
@@ -175,7 +175,7 @@ const characterMasterList = [
 
   { id: 8,
     name: "村人",
-    sex: "女",
+    sex: "男",
     attribute: "物理",
     maxHp: 60,
     hp: 60,
@@ -186,7 +186,7 @@ const characterMasterList = [
     spd: 8,
     hit: 90,
     avd: 3,
-    crit: 1,
+    crit: 6,
     img: "008murabito.png", // ←カンマを追加
     passiveSkill: "villager_genki_power",
     items: [
@@ -208,7 +208,7 @@ const characterMasterList = [
     spd: 6,
     hit: 90,
     avd: 2,
-    crit: 3,
+    crit: 8,
     img: "009okishi.png", // ←カンマを追加
     passiveSkill: "royal_knight_guardian",
     items: [
@@ -230,7 +230,7 @@ const characterMasterList = [
     spd: 15,
     hit: 95,
     avd: 11,
-    crit: 10,
+    crit: 15,
     img: "010yugekika.png", // ←カンマを追加
     passiveSkill: "guerrilla_extra_turn",
     items: [
@@ -247,12 +247,12 @@ const characterMasterList = [
     hp: 75,
     atk: 5,
     matk: 15,
-    def: 6,
+    def: 9,
     mdef: 19,
     spd: 10,
     hit: 100,
     avd: 7,
-    crit: 4,
+    crit: 9,
     img: "011miko.png", // ←カンマを追加
     passiveSkill: "miko_sacred_healing",
     items: [
@@ -274,7 +274,7 @@ const characterMasterList = [
     spd: 16,
     hit: 95,
     avd: 15,
-    crit: 7,
+    crit: 12,
     img: "013tejinashi.png", // ←カンマを追加
     passiveSkill: "magician_mixed_trick",
     items: [
