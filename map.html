@@ -26,8 +26,8 @@
 
     /* 2. 16:9の黄金の箱 */
     #game-container {
-      width: 1180px;
-      height: 664px;
+      width: 100cqw;
+      height: 56.2cqw;
       position: relative;      /* absoluteをやめてrelativeにする */
       background-image: url('map.png');
       background-size: cover;
@@ -43,7 +43,7 @@
 
     .hoshi {
       position: absolute;
-      color: black; font-size: 350px; z-index: 100; pointer-events: none;
+      color: black; font-size: 29.66cqw; z-index: 100; pointer-events: none;
       transition: transform 0.2s ease-in;
       transform: translate(-50%, -50%);
       transform-origin: center;
@@ -62,10 +62,10 @@
 
     .boss-img {
       position: absolute;
-      top: -170px;
+      top: -14.4;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
+      width: 67.79cqw;
       height: auto;
       z-index: 50;
       opacity: 0;
@@ -78,41 +78,41 @@
     }
 
     @keyframes bossSlideIn {
-      0% { top: -500px; opacity: 0; }
-      100% { top: -170px; opacity: 1; }
+      0% { top: -42.37cqw; opacity: 0; }
+      100% { top: -14.4cqw; opacity: 1; }
     }
 
     .msg-window {
       position: absolute;
-      bottom: 30px;
+      bottom: 2.54cqw;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      height: 140px;
+      height: 11.86cqw;
       background-color: rgba(0, 0, 0, 0.9);
-      border: 4px solid white;
-      border-radius: 8px;
+      border: 0.33cqw solid white;
+      border-radius: 0.67cqw;
       z-index: 200;
-      padding: 25px;
+      padding: 2.11cqw;
       box-sizing: border-box;
       display: none;
     }
 
     #message-text {
       color: white;
-      font-size: 32px;
+      font-size: 2.71cqw;
       margin: 0;
       font-family: 'DotGothic16', sans-serif;
       white-space: pre-wrap;
-      letter-spacing: 2px;
+      letter-spacing: 0.16cqw;
     }
 /* ぴかーん用（真っ白ボス） */
 .pika-boss {
   position: absolute;
-  top: -170px; /* 本物のボスと同じ位置 */
+  top: -14.4cqw; /* 本物のボスと同じ位置 */
   left: 50%;
   transform: translateX(-50%) scale(1);
-  width: 800px;
+  width: 67.79cqw;
   z-index: 60; /* 本物のボス(50)より少し手前 */
   opacity: 0;
   pointer-events: none;
@@ -151,7 +151,7 @@
   top: 45%; 
   
   transform: translate(-50%, -50%); /* 中央合わせにするための魔法の呪文 */
-  width: 350px; /* バトル中は少し小さくするなど調整可 */
+  width: 29.66cqw; /* バトル中は少し小さくするなど調整可 */
   height: auto;
   z-index: 100;
   display: none; /* 最初は隠しておく */
@@ -161,11 +161,11 @@
 /* 下部UIをまとめるコンテナ */
 #battle-footer {
   position: absolute;
-  bottom: 20px;
+  bottom: 1.69cqw;
   left: 50%;
   transform: translateX(-50%);
   width: 95%; /* 画面の横幅いっぱいより少し小さめ */
-  height: 160px;
+  height: 13.55cqw;
   display: none; /* 最初は隠しておき、ラグの演出で出す */
   justify-content: space-between; /* 2つの箱を左右に振り分ける */
   z-index: 200;
@@ -174,9 +174,9 @@
 /* 共通の黒いボックス設定 */
 .black-box {
   background-color: rgba(0, 0, 0, 0.9);
-  border: 4px solid white;
-  border-radius: 8px;
-  padding: 20px;
+  border: 0.33cqw solid white;
+  border-radius: 0.67cqw;
+  padding: 1.69cqw;
   box-sizing: border-box;
   color: white;
   font-family: 'DotGothic16', sans-serif;
@@ -185,16 +185,16 @@
 /* 左：メッセージボックス（幅74%） */
 #battle-msg-box {
   width: 74%;
-  font-size: 28px;
-  height: 140px;
+  font-size: 2.37cqw;
+  height: 11.86cqw;
   line-height: 1.5;
 }
 
 /* 右：コマンドボックス（幅24%） */
 #battle-command-box {
   width: 24%;
-  height: 140px;
-  font-size: 28px;
+  height: 11.86cqw;
+  font-size: 2.37cqw;
 }
 
 /* コマンドのリスト装飾を消す */
@@ -205,42 +205,42 @@
 }
 
 #command-list li {
-  margin-bottom: 10px;
+  margin-bottom: 0.84cqw;
   cursor: pointer;
 }
 
 
 
 #item-list li {
-  font-size: 20px;
+  font-size: 1.69cqw;
   line-height: 1.2;  /* 行の間隔を少し詰める */
-  margin-bottom: 5px; /* 28pxだとギチギチになるので、少し隙間を調整 */
+  margin-bottom: 0.42cqw; /* 少し隙間を調整 */
 }
 
 /* 画面上部に横一列に並べる */
 #party-status-window {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 0.84cqw;
+  right: 1.69cqw;
   width: auto;
   display: none; /* 最初は隠す */
   flex-direction: row; /* ★横並びに変更！ */
   justify-content: flex-end;
-  gap: 5px; /* キャラごとの隙間 */
+  gap: 0.42cqw; /* キャラごとの隙間 */
   z-index: 300;
 }
 
 /* 1人分ずつのボックスを横長にする */
 .status-row {
-  width: 140px;       /* ① 幅を少し広げる（180〜240くらいでお好み調整） */
-  height: 60px;       /* ② 高さを固定、または低めに設定する */
+  width: 11.86cqw;       /* ① 幅を少し広げる（180〜240くらいでお好み調整） */
+  height: 5.08cqw;       /* ② 高さを固定、または低めに設定する */
   
   background-color: rgba(0, 0, 0, 0.85);
-  border: 2px solid white;
-  border-radius: 6px;
+  border: 0.16cqw solid white;
+  border-radius: 0.5cqw;
   
   /* ③ 中身をギュッと詰める */
-  padding: 4px 10px;  /* 上下の余白（4px）を小さく、左右（10px）を確保 */
+  padding: 0.33cqw 0.84cqw;  /* 上下の余白を確保 */
   display: flex;
   flex-direction: column;
   justify-content: center; /* 中身を上下中央に寄せる */
@@ -251,13 +251,13 @@
 
 /* 名前とHPの文字を少し小さくして一行に収まりやすくする */
 .status-name { 
-  font-size: 15px; 
-  margin-bottom: 0px; /* 下の隙間を消す */
+  font-size: 1.27cqw; 
+  margin-bottom: 0cqw; /* 下の隙間を消す */
 }
 
 .hp-text { 
-  font-size: 11px; 
-  margin-top: -2px;   /* 少し上に詰める */
+  font-size: 0.93cqw; 
+  margin-top: -0.16cqw;   /* 少し上に詰める */
 }
 
 
@@ -266,10 +266,10 @@
 }
 
 @keyframes shake {
-  0% { margin-left: 0px; }
-  25% { margin-left: 10px; }
-  50% { margin-left: -10px; }
-  100% { margin-left: 0px; }
+  0% { margin-left: 0cqw; }
+  25% { margin-left: 0.84cqw; }
+  50% { margin-left: -0.84cqw; }
+  100% { margin-left: 0cqw; }
 }
 
 /* 味方がダメージを受けた時の揺れ（左へ弾かれるような動き） */
@@ -279,9 +279,9 @@
 
 @keyframes damage-shake {
   0% { transform: translate(-50%, -50%) translateX(0); }
-  20% { transform: translate(-50%, -50%) translateX(30px); } /* 一瞬右にのけぞる */
-  40% { transform: translate(-50%, -50%) translateX(-20px); }
-  60% { transform: translate(-50%, -50%) translateX(10px); }
+  20% { transform: translate(-50%, -50%) translateX(2.54cqw); } /* 一瞬右にのけぞる */
+  40% { transform: translate(-50%, -50%) translateX(-1.69cqw); }
+  60% { transform: translate(-50%, -50%) translateX(1.84cqw); }
   100% { transform: translate(-50%, -50%) translateX(0); }
 }
 
@@ -295,13 +295,13 @@
     transform: translate(-50%, -50%) translateY(0); /* 初期位置 */
   }
   30% {
-    transform: translate(-50%, -50%) translateY(-40px); /* 上に飛び上がる(高さ40px) */
+    transform: translate(-50%, -50%) translateY(-3.38cqw); /* 上に飛び上がる(高さ3.38cqw) */
   }
   60% {
     transform: translate(-50%, -50%) translateY(0); /* 地面に着地 */
   }
   80% {
-    transform: translate(-50%, -50%) translateY(-10px); /* 小さくリバウンド */
+    transform: translate(-50%, -50%) translateY(-0.84cqw); /* 小さくリバウンド */
   }
   100% {
     transform: translate(-50%, -50%) translateY(0); /* 完全に静止 */
@@ -314,7 +314,7 @@
   opacity: 0.6;
   transition: all 0.5s;
   /* 倒れた感を出すために少し下にずらすのもアリ */
-  margin-top: 20px; 
+  margin-top: 1.69cqw; 
 }
 
   </style>
@@ -327,7 +327,7 @@
   <img src="000majyo_white.png" id="boss-pika" class="pika-boss"> 
 
 <!-- 魔女のHPバー -->
-<div id="boss-hp-container" style="position: absolute; top: 400px; left: 25%; transform: translateX(-50%); width: 200px; height: 10px; background: #333; border: 2px solid white; display: none; z-index: 110;">
+<div id="boss-hp-container" style="position: absolute; top: 33.89cqw; left: 25%; transform: translateX(-50%); width: 16.94cqw; height: 0.84cqw; background: #333; border: 0.16cqw solid white; display: none; z-index: 110;">
   <div id="boss-hp-bar" style="width: 100%; height: 100%; background: #ff4757; transition: width 0.3s;"></div>
 </div>
   
@@ -353,17 +353,17 @@
   </div>
 
   <!-- ★追加：アイテムリストボックス（最初は隠しておく） -->
-  <div id="item-list-box" class="black-box" style="display:none; width: 24%; height: 140px; overflow-y: auto;">
+  <div id="item-list-box" class="black-box" style="display:none; width: 24%; height: 11.86cqw; overflow-y: auto;">
     <ul id="item-list" style="list-style: none; margin: 0; padding: 0;">
       <!-- ここに動的にアイテムが並ぶ -->
     </ul>
   </div>
 
 <!-- ★修正：ターゲット選択専用の「大きな」ウィンドウ（画面中央付近に表示） -->
-<div id="target-window-overlay" style="display:none; position:absolute; top: -38%; left: 82.2%; transform: translate(-50%, -50%); width: 400px; z-index: 500;">
-  <div class="black-box" style="width: 100%; height: auto; min-height: 200px;">
-    <p style="margin-top:0; border-bottom: 2px solid white; padding-bottom: 10px;">だれに　つかいますか？</p>
-    <ul id="target-list" style="list-style: none; margin: 0; padding: 0; font-size: 28px;">
+<div id="target-window-overlay" style="display:none; position:absolute; top: -45%; left: 82.2%; transform: translate(-50%, -50%); width: 33.89cqw; z-index: 500;">
+  <div class="black-box" style="width: 100%; height: auto; min-height: 16.94cqw;">
+    <p style="margin-top:0; border-bottom: 0.16cqw solid white; padding-bottom: 0.84cqw;">だれに　つかいますか？</p>
+    <ul id="target-list" style="list-style: none; margin: 0; padding: 0; font-size: 2.37cqw;">
       <!-- ここに仲間の名前が並ぶ -->
     </ul>
   </div>
@@ -573,7 +573,7 @@ function setupBattlefield() {
     img.src = member.img;
     img.id = `chara-img-${index}`; // ★ IDを追加（chara-img-0, chara-img-1...）
     img.style.position = 'absolute';
-    img.style.width = '180px';
+    img.style.width = '15.25cqw';
     img.style.zIndex = (150-index).toString();
     const coords = [
       { left: '53%', top: '58%' },
@@ -592,7 +592,7 @@ function setupBattlefield() {
     row.innerHTML = `
       <div class="status-name">${member.name}</div>
       <div class="hp-text">HP: <span id="hp-val-${index}">${member.hp}</span> / ${member.maxHp}</div>
-      <div class="hp-bar-bg" style="width:100%; height:8px; background:#555; border-radius:4px; overflow:hidden;">
+      <div class="hp-bar-bg" style="width:100%; height:0.67cqw; background:#555; border-radius:0.33cqw; overflow:hidden;">
         <div class="hp-bar-fill" id="hp-bar-${index}" style="width:100%; height:100%; background:linear-gradient(to right, #2ecc71, #27ae60); transition: width 0.5s;"></div>
       </div>
     `;
@@ -665,7 +665,7 @@ const seKettei = new Audio('kettei.mp3');
 
   const backLi = document.createElement('li');
   backLi.innerText = "▶︎もどる";
-  backLi.style.marginTop = "10px";
+  backLi.style.marginTop = "0.84cqw";
   backLi.onclick = () => {
     itemBox.style.display = 'none';
     commandBox.style.display = 'block';
@@ -713,9 +713,9 @@ targetListEl.innerHTML = "";
     // 生きているキャラだけ選択可能
     if (m.hp > 0) {
       const li = document.createElement('li');
-      li.style.padding = "10px 0";
+      li.style.padding = "0.84cqw 0";
       li.style.cursor = "pointer";
-      li.innerHTML = `  ${m.name} <span style="font-size:18px;">(HP:${m.hp})</span>`;
+      li.innerHTML = `  ${m.name} <span style="font-size:1.52cqw;">(HP:${m.hp})</span>`;
       li.onclick = () => executeItemEffect(index);
       targetListEl.appendChild(li);
     }
@@ -724,7 +724,7 @@ targetListEl.innerHTML = "";
 // キャンセルボタン
   const backLi = document.createElement('li');
   backLi.innerText = "▶︎ もどる";
-  backLi.style.marginTop = "15px";
+  backLi.style.marginTop = "1.27cqw";
   backLi.style.color = "#aaa";
   backLi.onclick = () => {
     targetOverlay.style.display = 'none';
