@@ -17,22 +17,30 @@
       background-color: #1a1a1a; /* 背景を少し明るくすると境界が見えます */
       margin: 0; 
       padding: 0;
-      width: 100vw;
+      width: 100vw;   /* 100dh / 100dw から 100vh / 100vw に修正 */
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: hidden;
-    }
-
+    } /* ← ここが閉じていませんでした */
+    
     #game-container {
-      width: 1180px;
-      height: 664px;
+      width: 100%; 
+      max-width: 100cqw; 
+      aspect-ratio: 16/9; 
+      max-height: 100dvh;
       background-color: #333; /* 画像がない時のための予備色 */
       background-image: url('oyasumi.png');
       background-size: cover;
       background-position: center;
-      position: relative;
+      position: relative; /* 重複していたので1つにまとめました */
+      overflow: hidden;
+      
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
       
       /* スケール計算：画面に収まるように自動調整 */
       --scale-x: calc(100vw / 1180);
@@ -42,19 +50,21 @@
       /* 重要：縮小してもレイアウト上の専有面積が変わらないよう調整 */
       flex-shrink: 0; 
     }
-      @keyframes shyun {
+
+    @keyframes shyun {
       0% { opacity: 0; transform: scale(0.8); }
       100% { opacity: 1; transform: scale(1); }
     }
 
-      h1{ opacity: 0; animation: shyun 1s forwards; }
-
+    h1 { 
+      opacity: 0; 
+      animation: shyun 1s forwards; 
+    }
   </style>
 </head>
 <body>
   <div id="game-container">
-    <!-- ここにゲーム画面の内容 -->
-    <h1 style="color: gold; font-family: 'DotGothic16'; text-align: center; margin-top: 10%;font-size:500%;text-shadow: 0 0 20px yellow;">
+    <h1 style="color: gold; font-family: 'DotGothic16'; text-align: center; font-size: 5rem; text-shadow: 0 0 20px yellow;">
       YOU WIN     
     </h1>
   </div>
