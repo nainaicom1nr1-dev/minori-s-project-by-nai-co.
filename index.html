@@ -12,50 +12,53 @@
       background-color: black;
       margin: 0; padding: 0;
       display: flex; justify-content: center; align-items: center;
-      height: 100vh; overflow: hidden;
+
+
+      height: 100dvh; overflow: hidden;
     }
 
     /* 2. 16:9の黄金の箱 */
     #game-container {
-      width: 1180px; height: 664px;
+      width: 100%; max-width:100cqw; aspect-ratio:16/9; max-height: 100dvh;
+
+
       position: relative;
       background-image: url('huruikami.png');
       background-size: cover; background-position: center;
       overflow: hidden;
-      transform: scale(min(1, calc(100vw / 1180), calc(100vh / 664)));
-      transform-origin: center;
+      
       display: flex; flex-direction: column; justify-content: center; align-items: center;
     }
 
     #mute-btn {
-      position: absolute; top: 15px; left: 35px; z-index: 1000;
+      position: absolute; top: 1.27cqw; left: 2.96cqw; z-index: 1000;
       background: rgba(0, 0, 0, 0.5); color: white;
-      border: 1px solid #777; border-radius: 50%;
-      width: 45px; height: 45px; cursor: pointer;
-      font-size: 20px; display: flex; justify-content: center; align-items: center;
+      border: 0.08cqw solid #777; border-radius: 50%;
+      width: 3.81cqw; height: 3.81cqw; cursor: pointer;
+      font-size: 1.69cqw; display: flex; justify-content: center; align-items: center;
       transition: 0.3s;
     }
 
     /* 3. キャラ選択の大きな箱 */
     .ookina-hako {
       display: flex; justify-content: center; align-items: center;
-      gap: 60px; padding: 20px;
-      background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
-      border-radius: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.8);
+      gap: 5.08cqw; padding: 1.69cqw;
+      background-color: rgba(0,0,0,0.6); backdrop-filter: blur(0.42cqw);
+      border-radius: 1.69cqw; box-shadow: 0 0 10px rgba(0,0,0,0.8);
       width: 82%; max-height: 85%;
     }
 
     .menyu { text-align: center; flex: 2; }
     .party-slots { 
-      display: flex; flex-direction: column; gap: 10px; align-items: center; flex: 1;
+      display: flex; flex-direction: column; gap: 0.84cqw; align-items: center; flex: 1;
       justify-content: flex-start;
-      padding-top: 25px; /* ★さらに少し上に寄せるために数値を増やしました */
+      padding-top: 2.11cqw; /* ★さらに少し上に寄せるために数値を増やしました */
     }
 
-    h2 { font-size: 24px; margin: 5px 0; color: white;font-family: 'DotGothic16', sans-serif; }
-    h3 { font-size: 16px; margin: 5px 0 10px 0; color: white;font-family: 'DotGothic16', sans-serif;}
+    h2 { font-size: 2.03cqw; margin: 0.42cqw 0; color: white;font-family: 'DotGothic16', sans-serif; }
+    h3 { font-size: 1.35cqw; margin: 0.42cqw 0 0.84cqw 0; color: white;font-family: 'DotGothic16', sans-serif;}
 
-    img.gazou { width: 115px; cursor: pointer; transition: 0.2s; margin: 2px; }
+    img.gazou { width: 9.74cqw; cursor: pointer; transition: 0.2s; margin: 0.16cqw; }
     img.gazou:hover { transform: scale(1.1); }
 
 
@@ -67,8 +70,8 @@
     }
 
     .slot {
-      width: 90px; height: 90px;
-      border: 2px dashed #777;
+      width: 7.62cqw; height: 7.62cqw;
+      border: 0.16cqw dashed #777;
       display: flex; align-items: center; justify-content: center;
       background-color: rgba(255,255,255,0.05);
     }
@@ -76,18 +79,18 @@
     .slot img { opacity: 1!important; animation: none!important; width: auto; height: 90%; }
 
     #reset-btn {
-      margin-top: 5px; padding: 5px 15px;
+      margin-top: 0.42cqw; padding: 0.42cqw 1.27cqw;
       background-color: #444; color: white;
-      border: 1px solid #777; border-radius: 5px;
-      cursor: pointer; font-size: 14px; width: 100px;
+      border: 1px solid #777; border-radius: 0.42cqw;
+      cursor: pointer; font-size: 1.18; width: 50%;
       font-family: 'DotGothic16', sans-serif;
     }
 
     #shuppatsu-btn {
-      margin-top: 10px; padding: 12px 25px;
+      margin-top: 0.84cqw; padding: 1.01cqw 2.11cqw;
       background-color: #bb92d8; color: black;
-      font-weight: bold; border: none; border-radius: 5px;
-      cursor: pointer; font-size: 18px;font-family: 'DotGothic16', sans-serif;
+      font-weight: bold; border: none; border-radius: 0.42cqw;
+      cursor: pointer; font-size: 1.52cqw;font-family: 'DotGothic16', sans-serif;
       /* ★最初から場所だけ予約しておく */
       visibility: hidden; 
       animation: dokun 2s infinite;
