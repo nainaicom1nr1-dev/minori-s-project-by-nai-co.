@@ -6,95 +6,76 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    /* フォント設定（ファイルがないと機能しません） */
-    @font-face {
-      font-family: 'BOSSFONT';
-      src: url('PixelMplus10-Regular.ttf');
-    }
-
+    /* 1. 外側の宇宙（全ての画面で共通） */
     body {
-      background-color: #1a1a1a; /* 背景を少し明るくすると境界が見えます */
-      margin: 0; 
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+      background-color: black;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      height: 100dvh; overflow: hidden;
     }
-
-
-#game-container {
-      width: 100%; 
-      max-width: 100cqw; 
-      aspect-ratio: 16/9; 
-      max-height: 100dvh;
-      background-color: #333; /* 画像がない時のための予備色 */
+    
+    /* 2. 16:9の黄金の箱（他の画面と完全に統一） */
+    #game-container {
+      width: 100vw; height: 100dvh; max-width: calc(100dvh * 16 / 9); max-height: calc(100vw * 9 / 16); aspect-ratio: 16/9;
+      position: relative;
+      background-color: #333; /* 予備色 */
       background-image: url('huruikami.png');
-      filter: grayscale(50%);
-      background-size: cover;
-      background-position: center;
-      position: relative; /* 重複していたので1つにまとめました */
+      filter: grayscale(50%); /* 元のモノクロ演出をキープ */
+      background-size: cover; background-position: center;
       overflow: hidden;
       
       display: flex; 
       flex-direction: column; 
-      justify-content: center; 
-      align-items: center;
+      justify-content: center; /* これで中の要素を縦方向の真ん中に配置 */
+      align-items: center;    /* これで中の要素を横方向の真ん中に配置 */
       
-      /* スケール計算：画面に収まるように自動調整 */
-      --scale-x: calc(100vw / 1180);
-      --scale-y: calc(100vh / 664);
-      transform: scale(min(var(--scale-x), var(--scale-y)));
-      
-      /* 重要：縮小してもレイアウト上の専有面積が変わらないよう調整 */
-      flex-shrink: 0; 
+      /* ★魔法のカスタム単位（--u）を登録 */
+      container-type: inline-size;
+      --u: 1cqw; 
     }
 
+    /* 画像の上に赤色を被せるエフェクト */
+    #game-container::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(100, 0, 0, 0.4); /* 赤色の透明フィルター */
+      z-index: 1; /* ★背景画像(デフォルト)の上に重ねる */
+    }
 
-      /* 画像の上に赤色を被せる設定 */
-      #game-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(100, 0, 0, 0.4); /* 赤色の透明度 (0.3を調整してください) */
-        z-index: -1; /* 背景画像とテキストの間に配置 */
-}
+    /* 3. 「YOU LOSE...」の文字装飾 */
+    h1 {
+      color: red;
+      font-family: 'DotGothic16', sans-serif;
+      text-align: center;
+      
+      /* 前回の cqw 指定を var(--u) に置き換え */
+      font-size: calc(var(--u) * 8.5);
+      text-shadow: 0 0 calc(var(--u) * 1.7) white;
+      
+      margin: 0; /* margin-top: 25% を廃止し、ブレを防止 */
+      position: relative;
+      z-index: 2; /* 赤い背景フィルター(z-index: 1)よりも手前に表示 */
+      
+      opacity: 0;
+      animation: shyun 1s forwards;
+    }
 
-      /* 文字が赤色の下にならないようにz-indexを指定 */
-      h1 {
-        position: relative;
-        z-index: 2;
-        opacity: 0;
-        animation: shyun 1s forwards;
-}
-
-      @keyframes shyun {
+    @keyframes shyun {
       0% { opacity: 0; transform: scale(0.8); }
       100% { opacity: 1; transform: scale(1); }
     }
-
-      
-
   </style>
 </head>
 <body>
+
   <div id="game-container">
-    <!-- ここにゲーム画面の内容 -->
-    <h1 style="color: red; font-family: 'DotGothic16'; text-align: center; margin-top: 25%; font-size:8.47cqw;text-shadow: 0 0 1.69cqw white;">
-      YOU LOSE...
-    </h1>
+    <h1>YOU LOSE...</h1>
   </div>
+
 </body>
-
-<script>
-
-</script>
-
-
 </html>
