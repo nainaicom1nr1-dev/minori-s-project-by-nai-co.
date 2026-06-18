@@ -6,44 +6,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     @font-face {
       font-family: 'BOSSFONT';
       src: url('PixelMplus10-Regular.ttf');
     }
 
-     /* 1. 外側の宇宙 */
+    /* 1. 外側の宇宙（全ての画面で共通） */
     body {
       background-color: black;
       margin: 0; padding: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;           /* Flexboxを復活させる */
-      justify-content: center; /* 左右中央 */
-      align-items: center;     /* 上下中央 */
+      display: flex;        
+      justify-content: center; 
+      align-items: center;     
+      height: 100dvh; 
       overflow: hidden;
     }
 
-    /* 2. 16:9の黄金の箱 */
+    /* 2. 16:9の黄金の箱（キャラクター選択・Win・Loseと完全に統一） */
     #game-container {
-      width: 100cqw;
-      height: 56.2cqw;
-      position: relative;      /* absoluteをやめてrelativeにする */
+      width: 100vw; height: 100dvh; max-width: calc(100dvh * 16 / 9); max-height: calc(100vw * 9 / 16); aspect-ratio: 16/9;
+      position: relative;      
       background-image: url('map.png');
       background-size: cover;
       background-position: center;
       overflow: hidden;
       transition: background 1s;
 
-      /* transformから translate(-50%, -50%) を抜く */
-      /* なぜならbodyのflexが中央に置いてくれるから、単純にscaleだけでOK */
-      transform: scale(min(calc(100vw / 1180), calc(100vh / 664)));
-      transform-origin: center;
+      /* ★古い transform: scale 処理を全削除！ブラウザが自動で16:9にフィットさせます */
+      
+      /* ★魔法のカスタム単位（--u）を登録 */
+      container-type: inline-size;
+      --u: 1cqw; 
     }
+
+    /* 以下、全ての cqw を var(--u) に綺麗に置き換え */
 
     .hoshi {
       position: absolute;
-      color: black; font-size: 29.66cqw; z-index: 100; pointer-events: none;
+      color: black; 
+      font-size: calc(var(--u) * 29.66); 
+      z-index: 100; 
+      pointer-events: none;
       transition: transform 0.2s ease-in;
       transform: translate(-50%, -50%);
       transform-origin: center;
@@ -62,10 +68,10 @@
 
     .boss-img {
       position: absolute;
-      top: -14.4;
+      top: calc(var(--u) * -14.4);
       left: 50%;
       transform: translateX(-50%);
-      width: 67.79cqw;
+      width: calc(var(--u) * 67.79);
       height: auto;
       z-index: 50;
       opacity: 0;
@@ -78,317 +84,274 @@
     }
 
     @keyframes bossSlideIn {
-      0% { top: -42.37cqw; opacity: 0; }
-      100% { top: -14.4cqw; opacity: 1; }
+      0% { top: calc(var(--u) * -42.37); opacity: 0; }
+      100% { top: calc(var(--u) * -14.4); opacity: 1; }
     }
 
     .msg-window {
       position: absolute;
-      bottom: 2.54cqw;
+      bottom: calc(var(--u) * 2.54);
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      height: 11.86cqw;
+      height: calc(var(--u) * 11.86);
       background-color: rgba(0, 0, 0, 0.9);
-      border: 0.33cqw solid white;
-      border-radius: 0.67cqw;
+      border: calc(var(--u) * 0.33) solid white;
+      border-radius: calc(var(--u) * 0.67);
       z-index: 200;
-      padding: 2.11cqw;
+      padding: calc(var(--u) * 2.11);
       box-sizing: border-box;
       display: none;
     }
 
     #message-text {
       color: white;
-      font-size: 2.71cqw;
+      font-size: calc(var(--u) * 2.71);
       margin: 0;
       font-family: 'DotGothic16', sans-serif;
       white-space: pre-wrap;
-      letter-spacing: 0.16cqw;
+      letter-spacing: calc(var(--u) * 0.16);
     }
-/* ぴかーん用（真っ白ボス） */
-.pika-boss {
-  position: absolute;
-  top: -14.4cqw; /* 本物のボスと同じ位置 */
-  left: 50%;
-  transform: translateX(-50%) scale(1);
-  width: 67.79cqw;
-  z-index: 60; /* 本物のボス(50)より少し手前 */
-  opacity: 0;
-  pointer-events: none;
-}
 
-/* 拡大＋薄くなるアニメーション */
-.pika-animation {
-  animation: pikaFlash 0.6s ease-out forwards;
-}
+    /* ぴかーん用（真っ白ボス） */
+    .pika-boss {
+      position: absolute;
+      top: calc(var(--u) * -14.4); 
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      width: calc(var(--u) * 67.79);
+      z-index: 60; 
+      opacity: 0;
+      pointer-events: none;
+    }
 
-@keyframes pikaFlash {
-  0% {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-    filter: brightness(2); /* より白く光らせる */
-  }
-  100% {
-    transform: translateX(-50%) scale(1.5); /* 1.5倍に巨大化 */
-    opacity: 0; /* 完全に透明に */
-  }
-}
+    /* 拡大＋薄くなるアニメーション */
+    .pika-animation {
+      animation: pikaFlash 0.6s ease-out forwards;
+    }
 
+    @keyframes pikaFlash {
+      0% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+        filter: brightness(2); 
+      }
+      100% {
+        transform: translateX(-50%) scale(1.5); 
+        opacity: 0; 
+      }
+    }
 
-/* ふわっと消えるための設定 */
+    /* ふわっと消えるための設定 */
     .fade-out {
       opacity: 0 !important;
-      transition: opacity 1s ease-out; /* 1秒かけて消える */
+      transition: opacity 1s ease-out; 
     }
 
+    /* バトル画面用のボス配置 */
+    .battle-boss {
+      position: absolute;
+      left: 25%; 
+      top: 45%; 
+      transform: translate(-50%, -50%); 
+      width: calc(var(--u) * 29.66); 
+      height: auto;
+      z-index: 100;
+      display: none; 
+    }
 
-/* バトル画面用のボス配置 */
-.battle-boss {
-  position: absolute;
-  /* ↓ここを好きな数字に変えて調整してください！ */
-  left: 25%; 
-  top: 45%; 
-  
-  transform: translate(-50%, -50%); /* 中央合わせにするための魔法の呪文 */
-  width: 29.66cqw; /* バトル中は少し小さくするなど調整可 */
-  height: auto;
-  z-index: 100;
-  display: none; /* 最初は隠しておく */
-}
+    /* 下部UIをまとめるコンテナ */
+    #battle-footer {
+      position: absolute;
+      bottom: calc(var(--u) * 1.69);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%; 
+      height: calc(var(--u) * 13.55);
+      display: none; 
+      justify-content: space-between; 
+      z-index: 200;
+    }
 
+    /* 共通の黒いボックス設定 */
+    .black-box {
+      background-color: rgba(0, 0, 0, 0.9);
+      border: calc(var(--u) * 0.33) solid white;
+      border-radius: calc(var(--u) * 0.67);
+      padding: calc(var(--u) * 1.69);
+      box-sizing: border-box;
+      color: white;
+      font-family: 'DotGothic16', sans-serif;
+    }
 
-/* 下部UIをまとめるコンテナ */
-#battle-footer {
-  position: absolute;
-  bottom: 1.69cqw;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%; /* 画面の横幅いっぱいより少し小さめ */
-  height: 13.55cqw;
-  display: none; /* 最初は隠しておき、ラグの演出で出す */
-  justify-content: space-between; /* 2つの箱を左右に振り分ける */
-  z-index: 200;
-}
+    /* 左：メッセージボックス（幅74%） */
+    #battle-msg-box {
+      width: 74%;
+      font-size: calc(var(--u) * 2.37);
+      height: calc(var(--u) * 11.86);
+      line-height: 1.5;
+    }
 
-/* 共通の黒いボックス設定 */
-.black-box {
-  background-color: rgba(0, 0, 0, 0.9);
-  border: 0.33cqw solid white;
-  border-radius: 0.67cqw;
-  padding: 1.69cqw;
-  box-sizing: border-box;
-  color: white;
-  font-family: 'DotGothic16', sans-serif;
-}
+    /* 右：コマンドボックス（幅24%） */
+    #battle-command-box {
+      width: 24%;
+      height: calc(var(--u) * 11.86);
+      font-size: calc(var(--u) * 2.37);
+    }
 
-/* 左：メッセージボックス（幅74%） */
-#battle-msg-box {
-  width: 74%;
-  font-size: 2.37cqw;
-  height: 11.86cqw;
-  line-height: 1.5;
-}
+    /* コマンドのリスト装飾を消す */
+    #command-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-/* 右：コマンドボックス（幅24%） */
-#battle-command-box {
-  width: 24%;
-  height: 11.86cqw;
-  font-size: 2.37cqw;
-}
+    #command-list li {
+      margin-bottom: calc(var(--u) * 0.84);
+      cursor: pointer;
+    }
 
-/* コマンドのリスト装飾を消す */
-#command-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+    #item-list li {
+      font-size: calc(var(--u) * 1.69);
+      line-height: 1.2;  
+      margin-bottom: calc(var(--u) * 0.42); 
+    }
 
-#command-list li {
-  margin-bottom: 0.84cqw;
-  cursor: pointer;
-}
+    /* 画面上部に横一列に並べる */
+    #party-status-window {
+      position: absolute;
+      top: calc(var(--u) * 0.84);
+      right: calc(var(--u) * 1.69);
+      width: auto;
+      display: none; 
+      flex-direction: row; 
+      justify-content: flex-end;
+      gap: calc(var(--u) * 0.42); 
+      z-index: 300;
+    }
 
+    /* 1人分ずつのボックス */
+    .status-row {
+      width: calc(var(--u) * 11.86);       
+      height: calc(var(--u) * 5.08);       
+      background-color: rgba(0, 0, 0, 0.85);
+      border: calc(var(--u) * 0.16) solid white;
+      border-radius: calc(var(--u) * 0.5);
+      padding: calc(var(--u) * 0.33) calc(var(--u) * 0.84);  
+      display: flex;
+      flex-direction: column;
+      justify-content: center; 
+      color: white;
+      font-family: 'DotGothic16', sans-serif;
+    }
 
+    .status-name { 
+      font-size: calc(var(--u) * 1.27); 
+      margin-bottom: 0; 
+    }
 
-#item-list li {
-  font-size: 1.69cqw;
-  line-height: 1.2;  /* 行の間隔を少し詰める */
-  margin-bottom: 0.42cqw; /* 少し隙間を調整 */
-}
+    .hp-text { 
+      font-size: calc(var(--u) * 0.93); 
+      margin-top: calc(var(--u) * -0.16);   
+    }
 
-/* 画面上部に横一列に並べる */
-#party-status-window {
-  position: absolute;
-  top: 0.84cqw;
-  right: 1.69cqw;
-  width: auto;
-  display: none; /* 最初は隠す */
-  flex-direction: row; /* ★横並びに変更！ */
-  justify-content: flex-end;
-  gap: 0.42cqw; /* キャラごとの隙間 */
-  z-index: 300;
-}
+    .shake {
+      animation: shake 0.2s ease-in-out 0s 2;
+    }
 
-/* 1人分ずつのボックスを横長にする */
-.status-row {
-  width: 11.86cqw;       /* ① 幅を少し広げる（180〜240くらいでお好み調整） */
-  height: 5.08cqw;       /* ② 高さを固定、または低めに設定する */
-  
-  background-color: rgba(0, 0, 0, 0.85);
-  border: 0.16cqw solid white;
-  border-radius: 0.5cqw;
-  
-  /* ③ 中身をギュッと詰める */
-  padding: 0.33cqw 0.84cqw;  /* 上下の余白を確保 */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 中身を上下中央に寄せる */
-  
-  color: white;
-  font-family: 'DotGothic16', sans-serif;
-}
+    @keyframes shake {
+      0% { margin-left: 0; }
+      25% { margin-left: calc(var(--u) * 0.84); }
+      50% { margin-left: calc(var(--u) * -0.84); }
+      100% { margin-left: 0; }
+    }
 
-/* 名前とHPの文字を少し小さくして一行に収まりやすくする */
-.status-name { 
-  font-size: 1.27cqw; 
-  margin-bottom: 0cqw; /* 下の隙間を消す */
-}
+    /* 味方がダメージを受けた時の揺れ */
+    .damage-shake {
+      animation: damage-shake 0.3s ease-in-out;
+    }
 
-.hp-text { 
-  font-size: 0.93cqw; 
-  margin-top: -0.16cqw;   /* 少し上に詰める */
-}
+    @keyframes damage-shake {
+      0% { transform: translate(-50%, -50%) translateX(0); }
+      20% { transform: translate(-50%, -50%) translateX(calc(var(--u) * 2.54)); } 
+      40% { transform: translate(-50%, -50%) translateX(calc(var(--u) * -1.69)); }
+      60% { transform: translate(-50%, -50%) translateX(calc(var(--u) * 1.84)); }
+      100% { transform: translate(-50%, -50%) translateX(0); }
+    }
 
+    /* 攻撃時にぴょんぴょん跳ねるアニメーション */
+    .attack-hop {
+      animation: attack-hop 0.5s ease-out; 
+    }
 
-.shake {
-  animation: shake 0.2s ease-in-out 0s 2;
-}
+    @keyframes attack-hop {
+      0% { transform: translate(-50%, -50%) translateY(0); }
+      30% { transform: translate(-50%, -50%) translateY(calc(var(--u) * -3.38)); } 
+      60% { transform: translate(-50%, -50%) translateY(0); }
+      80% { transform: translate(-50%, -50%) translateY(calc(var(--u) * -0.84)); } 
+      100% { transform: translate(-50%, -50%) translateY(0); }
+    }
 
-@keyframes shake {
-  0% { margin-left: 0cqw; }
-  25% { margin-left: 0.84cqw; }
-  50% { margin-left: -0.84cqw; }
-  100% { margin-left: 0cqw; }
-}
-
-/* 味方がダメージを受けた時の揺れ（左へ弾かれるような動き） */
-.damage-shake {
-  animation: damage-shake 0.3s ease-in-out;
-}
-
-@keyframes damage-shake {
-  0% { transform: translate(-50%, -50%) translateX(0); }
-  20% { transform: translate(-50%, -50%) translateX(2.54cqw); } /* 一瞬右にのけぞる */
-  40% { transform: translate(-50%, -50%) translateX(-1.69cqw); }
-  60% { transform: translate(-50%, -50%) translateX(1.84cqw); }
-  100% { transform: translate(-50%, -50%) translateX(0); }
-}
-
-/* 攻撃時にぴょんぴょん跳ねるアニメーション */
-.attack-hop {
-  animation: attack-hop 0.5s ease-out; /* 0.5秒間で1回跳ねる */
-}
-
-@keyframes attack-hop {
-  0% {
-    transform: translate(-50%, -50%) translateY(0); /* 初期位置 */
-  }
-  30% {
-    transform: translate(-50%, -50%) translateY(-3.38cqw); /* 上に飛び上がる(高さ3.38cqw) */
-  }
-  60% {
-    transform: translate(-50%, -50%) translateY(0); /* 地面に着地 */
-  }
-  80% {
-    transform: translate(-50%, -50%) translateY(-0.84cqw); /* 小さくリバウンド */
-  }
-  100% {
-    transform: translate(-50%, -50%) translateY(0); /* 完全に静止 */
-  }
-}
-
-/* 死亡時の見た目（白黒 ＋ 半透明 ＋ 少し沈む） */
-.dead-chara {
-  filter: grayscale(100%) brightness(0.5);
-  opacity: 0.6;
-  transition: all 0.5s;
-  /* 倒れた感を出すために少し下にずらすのもアリ */
-  margin-top: 1.69cqw; 
-}
-
+    /* 死亡時の見た目 */
+    .dead-chara {
+      filter: grayscale(100%) brightness(0.5);
+      opacity: 0.6;
+      transition: all 0.5s;
+      margin-top: calc(var(--u) * 1.69); 
+    }
   </style>
 </head>
 
 <body>
   <div id="game-container">
-  <!-- 登場演出用 -->
-  <img src="000majyo.png" id="boss-character" class="boss-img">
-  <img src="000majyo_white.png" id="boss-pika" class="pika-boss"> 
+    <img src="000majyo.png" id="boss-character" class="boss-img">
+    <img src="000majyo_white.png" id="boss-pika" class="pika-boss"> 
 
-<!-- 魔女のHPバー -->
-<div id="boss-hp-container" style="position: absolute; top: 33.89cqw; left: 25%; transform: translateX(-50%); width: 16.94cqw; height: 0.84cqw; background: #333; border: 0.16cqw solid white; display: none; z-index: 110;">
-  <div id="boss-hp-bar" style="width: 100%; height: 100%; background: #ff4757; transition: width 0.3s;"></div>
-</div>
-  
-  <!-- ★追加：バトル本番用 -->
-  <img src="000majyo.png" id="battle-boss-img" class="battle-boss">
+    <div id="boss-hp-container" style="position: absolute; top: calc(var(--u) * 33.89); left: 25%; transform: translateX(-50%); width: calc(var(--u) * 16.94); height: calc(var(--u) * 0.84); background: #333; border: calc(var(--u) * 0.16) solid white; display: none; z-index: 110;">
+      <div id="boss-hp-bar" style="width: 100%; height: 100%; background: #ff4757; transition: width 0.3s;"></div>
+    </div>
+      
+    <img src="000majyo.png" id="battle-boss-img" class="battle-boss">
 
-<div id="party-status-window"></div>
+    <div id="party-status-window"></div>
 
-<!-- バトル下部UIエリア -->
-<div id="battle-footer">
-  <!-- 左側：メッセージボックス（3/4） -->
-  <div id="battle-msg-box" class="black-box">
-    <p id="battle-msg-text">ボスは　嫉妬のオーラを　放っている……</p>
+    <div id="battle-footer">
+      <div id="battle-msg-box" class="black-box">
+        <p id="battle-msg-text">ボスは 嫉妬のオーラを 放っている……</p>
+      </div>
+      
+      <div id="battle-command-box" class="black-box" style="display:none;">
+        <ul id="command-list">
+          <li onclick="selectCommand()"> たたかう</li>
+          <li onclick="showItemList()"> アイテム</li>
+        </ul>
+      </div>
 
+      <div id="item-list-box" class="black-box" style="display:none; width: 24%; height: calc(var(--u) * 11.86); overflow-y: auto;">
+        <ul id="item-list" style="list-style: none; margin: 0; padding: 0;"></ul>
+      </div>
+
+      <div id="target-window-overlay" style="display:none; position:absolute; top: -45%; left: 82.2%; transform: translate(-50%, -50%); width: calc(var(--u) * 33.89); z-index: 500;">
+        <div class="black-box" style="width: 100%; height: auto; min-height: calc(var(--u) * 16.94);">
+          <p style="margin-top:0; border-bottom: calc(var(--u) * 0.16) solid white; padding-bottom: calc(var(--u) * 0.84);">だれに つかいますか？</p>
+          <ul id="target-list" style="list-style: none; margin: 0; padding: 0; font-size: calc(var(--u) * 2.37);"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="message-window" class="msg-window">
+      <p id="message-text"></p>
+    </div>
   </div>
-  
-  <!-- 右側：コマンドボックス（1/4） -->
-  <div id="battle-command-box" class="black-box" style="display:none;">
-    <ul id="command-list">
-      <li onclick="selectCommand()">▶︎たたかう</li>
-      <li onclick="showItemList()">　アイテム</li>
-    </ul>
-  </div>
-
-  <!-- ★追加：アイテムリストボックス（最初は隠しておく） -->
-  <div id="item-list-box" class="black-box" style="display:none; width: 24%; height: 11.86cqw; overflow-y: auto;">
-    <ul id="item-list" style="list-style: none; margin: 0; padding: 0;">
-      <!-- ここに動的にアイテムが並ぶ -->
-    </ul>
-  </div>
-
-<!-- ★修正：ターゲット選択専用の「大きな」ウィンドウ（画面中央付近に表示） -->
-<div id="target-window-overlay" style="display:none; position:absolute; top: -45%; left: 82.2%; transform: translate(-50%, -50%); width: 33.89cqw; z-index: 500;">
-  <div class="black-box" style="width: 100%; height: auto; min-height: 16.94cqw;">
-    <p style="margin-top:0; border-bottom: 0.16cqw solid white; padding-bottom: 0.84cqw;">だれに　つかいますか？</p>
-    <ul id="target-list" style="list-style: none; margin: 0; padding: 0; font-size: 2.37cqw;">
-      <!-- ここに仲間の名前が並ぶ -->
-    </ul>
-  </div>
-</div>
-
-</div>
-
-  <div id="message-window" class="msg-window">
-    <p id="message-text"></p>
-  </div>
-</div>
 
 <script src="skills.js"></script>
 <script src="data.js"></script>
 
-  <script>
-
-/* --- ① まずはデータを読み込む --- */
-// data.js は HTML側で読み込んでいる前提なので、
-// localStorage から「選ばれた4人」を取り出します
+<script>
+/* --- ① データの読み込み --- */
 const savedData = localStorage.getItem('myParty');
 const partyMembers = savedData ? JSON.parse(savedData) : [];
 
-// もしデータが空（直接map.htmlを開いた時など）の保険として、
-// partyMembers が空なら ID 1〜4 を入れておく処理
 if (partyMembers.length === 0) {
   const ids = [1, 2, 3, 4];
   ids.forEach(id => {
@@ -397,167 +360,144 @@ if (partyMembers.length === 0) {
   });
 }
 
-    const container = document.getElementById('game-container');
-    let canAdvance = false; // 次へ進めるかどうかの旗
+const container = document.getElementById('game-container');
+let canAdvance = false; 
 
 function playPika() {
   const pikaSfx = new Audio('pika.mp3');
   pikaSfx.play();
 }
 
-    function typeMessage(text, element, speed, soundFile) {
-      let i = 0;
-      element.innerText = "";
-      const sfx = new Audio(soundFile);
-      sfx.loop = true;
-      sfx.play();
-      
-      const timer = setInterval(() => {
-        if (i < text.length) {
-          element.innerText += text.charAt(i);
-          i++;
-        } else {
-          clearInterval(timer);
-          sfx.pause(); 
-          sfx.currentTime = 0; 
-          // ★ 文字が出終わったら、クリックで次へ進めるようにする
-          canAdvance = true; 
-        }
-      }, speed);
-    }
-
-    function createStar(leftPercent, topPercent) {
-      const star = document.createElement('div');
-      star.className = 'hoshi';
-      star.innerText = '★'; 
-      star.style.left = leftPercent + '%';
-      star.style.top = topPercent + '%';
-      container.appendChild(star);
-    }
-
-    // --- 最初のクリック（演出開始） ---
-    window.addEventListener('pointerdown', () => {
-      const bgm = new Audio('bossBGM.mp3');
-      bgm.volume = 0.3;
-      const loopStart = 1.3;
-      const loopEnd = 162.6;
-
-      bgm.addEventListener('timeupdate', () => {
-        if (bgm.currentTime >= loopEnd) {
-          bgm.currentTime = loopStart;
-        }
-      });
-      bgm.play();
-
-      // 星の演出〜ボス登場まではそのまま
-      setTimeout(() => {
-        createStar(50, 70); 
-        setTimeout(() => { createStar(65, 70); createStar(35, 70); createStar(50, 40); }, 100);
-        setTimeout(() => { createStar(80, 70); createStar(20, 70); createStar(50, 10); createStar(50, 100); createStar(65, 40); createStar(35, 40); }, 200);
-        setTimeout(() => { createStar(95, 70); createStar(5, 70); createStar(80, 40); createStar(20, 40); createStar(65, 10); createStar(35, 10); createStar(65, 100); createStar(35, 100); }, 300);
-        setTimeout(() => { createStar(95, 40); createStar(5, 40); createStar(80, 10); createStar(20, 10); createStar(80, 100); createStar(20, 100); }, 400);
-        setTimeout(() => { createStar(95, 10); createStar(5, 10); createStar(95, 100); createStar(5, 100); }, 500);
-
-        setTimeout(() => {
-          document.querySelectorAll('.hoshi').forEach(star => { star.style.transform = 'translate(-50%, -50%) scale(2)'; });
-        }, 700);
-
-        setTimeout(() => {
-          document.querySelectorAll('.hoshi').forEach(star => star.remove());
-          container.classList.add('dark'); 
-
-          setTimeout(() => {
-            const boss = document.getElementById('boss-character');
-  const pika = document.getElementById('boss-pika'); // 真っ白ボスを取得
-
-  boss.classList.add('show'); 
+function typeMessage(text, element, speed, soundFile) {
+  let i = 0;
+  element.innerText = "";
+  const sfx = new Audio(soundFile);
+  sfx.loop = true;
+  sfx.play();
   
-  // スライドインが終わる1.5秒後（1500ms）に実行
+  const timer = setInterval(() => {
+    if (i < text.length) {
+      element.innerText += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(timer);
+      sfx.pause(); 
+      sfx.currentTime = 0; 
+      canAdvance = true; 
+    }
+  }, speed);
+}
+
+function createStar(leftPercent, topPercent) {
+  const star = document.createElement('div');
+  star.className = 'hoshi';
+  star.innerText = '★'; 
+  star.style.left = leftPercent + '%';
+  star.style.top = topPercent + '%';
+  container.appendChild(star);
+}
+
+// 最初のクリック（演出開始）
+window.addEventListener('pointerdown', () => {
+  const bgm = new Audio('bossBGM.mp3');
+  bgm.volume = 0.3;
+  const loopStart = 1.3;
+  const loopEnd = 162.6;
+
+  bgm.addEventListener('timeupdate', () => {
+    if (bgm.currentTime >= loopEnd) {
+      bgm.currentTime = loopStart;
+    }
+  });
+  bgm.play();
+
   setTimeout(() => {
-playPika(); // 関数を呼び出すだけにする
-    pika.classList.add('pika-animation');
-    
-    
+    createStar(50, 70); 
+    setTimeout(() => { createStar(65, 70); createStar(35, 70); createStar(50, 40); }, 100);
+    setTimeout(() => { createStar(80, 70); createStar(20, 70); createStar(50, 10); createStar(50, 100); createStar(65, 40); createStar(35, 40); }, 200);
+    setTimeout(() => { createStar(95, 70); createStar(5, 70); createStar(80, 40); createStar(20, 40); createStar(65, 10); createStar(35, 10); createStar(65, 100); createStar(35, 100); }, 300);
+    setTimeout(() => { createStar(95, 40); createStar(5, 40); createStar(80, 10); createStar(20, 10); createStar(80, 100); createStar(20, 100); }, 400);
+    setTimeout(() => { createStar(95, 10); createStar(5, 10); createStar(95, 100); createStar(5, 100); }, 500);
 
-  }, 1500);
-            const msgWindow = document.getElementById('message-window');
-            const msgText = document.getElementById('message-text');
+    setTimeout(() => {
+      document.querySelectorAll('.hoshi').forEach(star => { star.style.transform = 'translate(-50%, -50%) scale(2)'; });
+    }, 700);
 
-            boss.classList.add('show'); 
-            container.classList.remove('dark');
-            container.classList.add('battle');
+    setTimeout(() => {
+      document.querySelectorAll('.hoshi').forEach(star => star.remove());
+      container.classList.add('dark'); 
 
-            msgWindow.style.display = 'block';
-            typeMessage('そんざいしない　ボスが　あらわれた！', msgText, 50, 'moji.mp3');
-
-          }, 2000);
-        }, 2000);
-      }, 500); 
-    }, { once: true });
-
-    // ★ 2回目以降のクリック
-    window.addEventListener('pointerdown', () => {
-      if (!canAdvance) return;
-      canAdvance = false;
-
-      // 決定音を鳴らす
-      const ketteiSfx = new Audio('kettei.mp3');
-      ketteiSfx.volume = 1;
-      ketteiSfx.play();
-
-      // 1秒待ってから、まず背景とボスを「ふわっと」消し始める
       setTimeout(() => {
         const boss = document.getElementById('boss-character');
-        const msgWindow = document.getElementById('message-window');
+        const pika = document.getElementById('boss-pika'); 
 
-        // ★ A. 背景(murasaki.png)とボスを「ふわっと」消す
-        // 背景は .dark クラスをつけるだけで CSSの transition が効いてふわっと黒になります
-        container.classList.remove('battle');
-        container.classList.add('dark'); 
+        boss.classList.add('show'); 
         
-        // ボスは .fade-out クラスでふわっと透明にします
-        boss.classList.add('fade-out');
-
-        // B. さらに「ちょっとしたラグ（例：0.5秒）」をつけてウィンドウをパッと消す
         setTimeout(() => {
-          msgWindow.style.display = 'none';
-        }, 500);
+          playPika(); 
+          pika.classList.add('pika-animation');
+        }, 1500);
+        const msgWindow = document.getElementById('message-window');
+        const msgText = document.getElementById('message-text');
 
-        // C. 全てが消えて暗転した後に、battlemap.png を表示
-        setTimeout(() => {
-          container.style.transition = "none";
-          container.classList.remove('dark');
-          container.style.backgroundImage = "url('battlemap.png')";
-          
-          boss.style.display = 'none'; // 演出用のボスは消去
+        boss.classList.add('show'); 
+        container.classList.remove('dark');
+        container.classList.add('battle');
 
-          // --- ここから「ラグ」の演出 ---
-          
-          // 例：背景が出てから 0.5秒（500ms）待って表示させる
-          setTimeout(() => {
-            const battleBoss = document.getElementById('battle-boss-img');
-            battleBoss.style.display = 'block'; 
+        msgWindow.style.display = 'block';
+        typeMessage('そんざいしない ボスが あらわれた！', msgText, 50, 'moji.mp3');
 
-            // ここ！ 下部UIを一気に表示させる
-            const footer = document.getElementById('battle-footer');
-            footer.style.display = 'flex'; // flexで表示！
+      }, 2000);
+    }, 2000);
+  }, 500); 
+}, { once: true });
 
- // ★ ここで仲間を登場させる！
-            setupBattlefield();
+// 2回目以降のクリック
+window.addEventListener('pointerdown', () => {
+  if (!canAdvance) return;
+  canAdvance = false;
 
-            console.log("バトル画面完成！");
-          }, 500);  // ← この数字を大きくするとラグが長くなります（1000なら1秒）
+  const ketteiSfx = new Audio('kettei.mp3');
+  ketteiSfx.volume = 1;
+  ketteiSfx.play();
 
-          // --------------------------
+  setTimeout(() => {
+    const boss = document.getElementById('boss-character');
+    const msgWindow = document.getElementById('message-window');
 
-          setTimeout(() => {
-              container.style.transition = "background 1s ease-out";
-          }, 100);
-        }, 1500); // フェードアウト（1s）+ 余裕を持って1.5秒後
+    container.classList.remove('battle');
+    container.classList.add('dark'); 
+    boss.classList.add('fade-out');
 
-      }, 1000); // 決定音の後のタメ
-    });
+    setTimeout(() => {
+      msgWindow.style.display = 'none';
+    }, 500);
 
+    setTimeout(() => {
+      container.style.transition = "none";
+      container.classList.remove('dark');
+      container.style.backgroundImage = "url('battlemap.png')";
+      
+      boss.style.display = 'none'; 
+
+      setTimeout(() => {
+        const battleBoss = document.getElementById('battle-boss-img');
+        battleBoss.style.display = 'block'; 
+
+        const footer = document.getElementById('battle-footer');
+        footer.style.display = 'flex'; 
+
+        setupBattlefield();
+        console.log("バトル画面完成！");
+      }, 500);  
+
+      setTimeout(() => {
+          container.style.transition = "background 1s ease-out";
+      }, 100);
+    }, 1500); 
+
+  }, 1000); 
+});
 
 // --- ② 仲間とステータスを生成する関数 ---
 function setupBattlefield() {
@@ -566,14 +506,14 @@ function setupBattlefield() {
   statusWindow.style.display = "flex"; 
 
   partyMembers.forEach((member, index) => {
-    member.selectedAction = "attack"; // ★追加：デフォルトは攻撃
+    member.selectedAction = "attack"; 
 
-    // 1. キャラクター画像の配置
+    // 1. キャラクター画像の配置（インラインの cqw を var(--u) に置き換え）
     const img = document.createElement('img');
     img.src = member.img;
-    img.id = `chara-img-${index}`; // ★ IDを追加（chara-img-0, chara-img-1...）
+    img.id = `chara-img-${index}`; 
     img.style.position = 'absolute';
-    img.style.width = '15.25cqw';
+    img.style.width = 'calc(var(--u) * 15.25)';
     img.style.zIndex = (150-index).toString();
     const coords = [
       { left: '53%', top: '58%' },
@@ -586,59 +526,44 @@ function setupBattlefield() {
     img.style.transform = 'translate(-50%, -50%)';
     container.appendChild(img);
     
-    // 2. 上部に横並びするステータス行
+    // 2. 上部に横並びするステータス行（インラインの cqw を var(--u) に置き換え）
     const row = document.createElement('div');
-    row.className = 'status-row'; // CSSのクラスを適用
+    row.className = 'status-row'; 
     row.innerHTML = `
       <div class="status-name">${member.name}</div>
       <div class="hp-text">HP: <span id="hp-val-${index}">${member.hp}</span> / ${member.maxHp}</div>
-      <div class="hp-bar-bg" style="width:100%; height:0.67cqw; background:#555; border-radius:0.33cqw; overflow:hidden;">
+      <div class="hp-bar-bg" style="width:100%; height:calc(var(--u) * 0.67); background:#555; border-radius:calc(var(--u) * 0.33); overflow:hidden;">
         <div class="hp-bar-fill" id="hp-bar-${index}" style="width:100%; height:100%; background:linear-gradient(to right, #2ecc71, #27ae60); transition: width 0.5s;"></div>
       </div>
     `;
     statusWindow.appendChild(row);
 
-// バトル開始時にボスHPバーを表示
-document.getElementById('boss-hp-container').style.display = 'block';
+    document.getElementById('boss-hp-container').style.display = 'block';
+    document.getElementById('battle-command-box').style.display = 'none';
 
+    setBattleMessage("ボスは 嫉妬のオーラを 放っている……");
 
-
- // ★ 追加：最初はコマンドボックスを隠しておく
-  document.getElementById('battle-command-box').style.display = 'none';
-
-// setupBattlefieldの最後に追記
-setBattleMessage("ボスは 嫉妬のオーラを 放っている……");
-
-// 画面全体に一回限りのクリックイベントを貼る
-const startBattleTrigger = () => {
-   checkAndShowCommand(); 
-  window.removeEventListener('pointerdown', startBattleTrigger);
-};
-window.addEventListener('pointerdown', startBattleTrigger);
-
-
+    const startBattleTrigger = () => {
+       checkAndShowCommand(); 
+      window.removeEventListener('pointerdown', startBattleTrigger);
+    };
+    window.addEventListener('pointerdown', startBattleTrigger);
   });
 }
 
-
 /* --- ③ バトルの実行ロジック --- */
-
-// 現在のターゲット（今は魔女固定）
 let bossData = characterMasterList.find(c => c.id === 0);
-let currentInputIndex = 0; // 現在コマンド入力中のキャラ番号
-let isInputPhase = true;   // 今は入力中か、実行中か
+let currentInputIndex = 0; 
+let isInputPhase = true;   
 
-// メッセージを表示する関数
 function setBattleMessage(text) {
   const msgEl = document.getElementById('battle-msg-text');
   msgEl.innerText = text;
 }
 
-// 効果音の準備
 const seKettei = new Audio('kettei.mp3');
 
-// アイテムリストを表示する
-  function showItemList() {
+function showItemList() {
   if (!isInputPhase || partyMembers[currentInputIndex].hp <= 0) return; 
   seKettei.currentTime = 0;
   seKettei.play();
@@ -665,7 +590,7 @@ const seKettei = new Audio('kettei.mp3');
 
   const backLi = document.createElement('li');
   backLi.innerText = "▶︎もどる";
-  backLi.style.marginTop = "0.84cqw";
+  backLi.style.marginTop = "calc(var(--u) * 0.84)";
   backLi.onclick = () => {
     itemBox.style.display = 'none';
     commandBox.style.display = 'block';
@@ -676,9 +601,7 @@ const seKettei = new Audio('kettei.mp3');
   itemBox.style.display = 'block';
 }
 
-
-let selectedItemIndex = null; // どのアイテムを使うか一時保存
-// アイテムを使用する
+let selectedItemIndex = null; 
 function useItem(itemIndex) {
   const member = partyMembers[currentInputIndex];
   const item = member.items[itemIndex];
@@ -686,53 +609,46 @@ function useItem(itemIndex) {
   seKettei.currentTime = 0;
   seKettei.play();
 
-// 選択したアイテムを一時保存
   selectedItemIndex = itemIndex;
 
-  // アイテムが「heal_target（単体回復）」ならターゲット選択へ
   if (item.effect === "heal_target") {
     showTargetList();
   } else {
-    // 自分専用アイテムの時も、アイテムリストを閉じてから実行！
     document.getElementById('item-list-box').style.display = 'none';
     executeItemEffect(currentInputIndex);
   }
 }
 
 function showTargetList() {
-  // アイテムリストを隠す
   document.getElementById('item-list-box').style.display = 'none';
   
   const targetOverlay = document.getElementById('target-window-overlay');
   const targetListEl = document.getElementById('target-list');
 
-targetListEl.innerHTML = "";
+  targetListEl.innerHTML = "";
   targetOverlay.style.display = 'block';
 
   partyMembers.forEach((m, index) => {
-    // 生きているキャラだけ選択可能
     if (m.hp > 0) {
       const li = document.createElement('li');
-      li.style.padding = "0.84cqw 0";
+      li.style.padding = "calc(var(--u) * 0.84) 0";
       li.style.cursor = "pointer";
-      li.innerHTML = `  ${m.name} <span style="font-size:1.52cqw;">(HP:${m.hp})</span>`;
+      li.innerHTML = `  ${m.name} <span style="font-size:calc(var(--u) * 1.52);">(HP:${m.hp})</span>`;
       li.onclick = () => executeItemEffect(index);
       targetListEl.appendChild(li);
     }
   });
 
-// キャンセルボタン
   const backLi = document.createElement('li');
   backLi.innerText = "▶︎ もどる";
-  backLi.style.marginTop = "1.27cqw";
+  backLi.style.marginTop = "calc(var(--u) * 1.27)";
   backLi.style.color = "#aaa";
   backLi.onclick = () => {
     targetOverlay.style.display = 'none';
-    document.getElementById('item-list-box').style.display = 'block'; // アイテムリストに戻る
+    document.getElementById('item-list-box').style.display = 'block'; 
   };
   targetListEl.appendChild(backLi);
 }
-
 
 function executeItemEffect(targetIndex) {
   const member = partyMembers[currentInputIndex];
@@ -742,16 +658,13 @@ function executeItemEffect(targetIndex) {
   seKettei.currentTime = 0;
   seKettei.play();
 
-// ★重要：開いているウィンドウをすべて閉じる
   document.getElementById('target-window-overlay').style.display = 'none';
   document.getElementById('item-list-box').style.display = 'none';
   document.getElementById('battle-command-box').style.display = 'none';
 
-  // アイテム消費とアクション設定
   item.count--;
   member.selectedAction = "item";
 
-// 回復処理
   let effectMsg = "";
   if (item.effect === "heal_target" || item.effect === "heal_fixed") {
     applyHeal(target, item.value);
@@ -764,31 +677,22 @@ function executeItemEffect(targetIndex) {
   setBattleMessage(effectMsg);
   updateStatusUI(targetIndex);
 
-  // 次の人のターンへ
   setTimeout(() => {
     proceedNextTurn();
   }, 1000);
 }
 
-// 「たたかう」を選択した時の処理
 function selectCommand() {
   if (!isInputPhase) return;
   
-  // 決定音を鳴らす
   seKettei.currentTime = 0;
   seKettei.play();
 
-  // 現在のキャラの行動を「攻撃」に設定
   partyMembers[currentInputIndex].selectedAction = "attack";
-
-  // 次のキャラの入力へ進む
   proceedNextTurn();
 }
 
-
-// 「現在の入力者が死んでいたら次へ」を判定する専用関数
 function checkAndShowCommand() {
-  // ★重要：一度すべての入力UIを隠す（死体からUIが引き継がれるのを防ぐ）
   document.getElementById('battle-command-box').style.display = 'none';
   document.getElementById('item-list-box').style.display = 'none';
   document.getElementById('target-window-overlay').style.display = 'none';
@@ -796,28 +700,23 @@ function checkAndShowCommand() {
     const member = partyMembers[currentInputIndex];
     
     if (member.hp <= 0) {
-      // 死んでいたらインデックスを増やして、自分自身をもう一度呼び出す（再帰）
       currentInputIndex++;
       checkAndShowCommand();
     } else {
-      // 生きていたらコマンドを表示
       document.getElementById('battle-command-box').style.display = 'block';
       setBattleMessage(`${member.name} は どうする？`);
     }
   } else {
-    // 全員チェックし終わったら実行フェーズへ
     isInputPhase = false;
     executeFullTurn();
   }
 }
 
-// --- 既存の proceedNextTurn もこれを使ってスッキリさせます ---
 function proceedNextTurn() {
   currentInputIndex++;
   checkAndShowCommand();
 }
 
-// 回復を実行し、弓術士の「連鎖」をチェックする関数
 function applyHeal(target, amount, skipEcho = false) {
   if (!target || target.hp <= 0) return;
 
@@ -825,33 +724,25 @@ function applyHeal(target, amount, skipEcho = false) {
   target.hp = Math.min(target.maxHp, target.hp + amount);
   const actualHeal = target.hp - oldHp;
 
-  // ステータスUIを更新
   updateStatusUI(partyMembers.indexOf(target));
 
-// 弓術士のスキル判定 (skipEchoは無限ループ防止用)
   if (!skipEcho && target.passiveSkill === "archer_kindness_echo" && actualHeal > 0) {
-    setBattleMessage(`${target.name}は、みんなに　お返しをした！`);
+    setBattleMessage(`${target.name}は、みんなに お返しをした！`);
     
-    // 自分以外の味方全員を同じ量回復
     partyMembers.forEach((member, i) => {
       if (member.id !== target.id && member.hp > 0) {
-        // 連鎖による回復実行 (さらに連鎖しないよう skipEcho を true に)
         applyHeal(member, amount, true); 
       }
     });
   }
 }
 
-
-// 全員の行動を順番に実行する
 function executeFullTurn() {
   setBattleMessage("パーティーの 攻撃！");
-  let extraAttacker = null; // 遊撃家を記録する変数
+  let extraAttacker = null; 
 
-  // 1. パーティー全員の攻撃
   partyMembers.forEach((member, index) => {
     setTimeout(() => {
-      // 霊獣使いの特殊判定
       if (member.hp <= 0) {
         if (member.passiveSkill === "beast_tamer_auto_attack") {
           const survivors = partyMembers.filter(m => m.id !== member.id && m.hp > 0);
@@ -867,27 +758,20 @@ function executeFullTurn() {
 
       if (member.selectedAction === "item") return; 
 
-// ★追加（ぴょんぴょん演出）：
-      // これから行動するキャラクターの画像を取得
       const attackerImg = document.getElementById(`chara-img-${index}`);
       if (attackerImg) {
-          // CSSクラスを追加してアニメーションを開始
           attackerImg.classList.add('attack-hop');
-          
-          // アニメーションが終わる頃（0.5秒後 = 500ms）にクラスを削除
           setTimeout(() => {
               attackerImg.classList.remove('attack-hop');
           }, 500); 
       }
 
-      // 命中判定
       const hitRoll = Math.floor(Math.random() * 100) + 1;
       if (hitRoll > member.hit) {
         setBattleMessage(`${member.name}の攻撃は、当たらなかった！`);
         return;
       }
 
-      // 攻撃前スキル
       let currentAtk = (member.attribute === "魔法") ? member.matk : member.atk;
       const magician = partyMembers.find(m => m.passiveSkill === "magician_mixed_trick" && m.hp > 0);
       if (magician && member.id !== magician.id) {
@@ -897,35 +781,30 @@ function executeFullTurn() {
         currentAtk = Math.floor(currentAtk * 2.5);
       }
 
-      // 武闘家スキル
       let damageMultiplier = 1;
       let healAfterAttack = false;
       if (member.passiveSkill === "butoka_last_resort" && member.hp <= (member.maxHp / 4)) {
         damageMultiplier = 3;
         healAfterAttack = true;
-        setBattleMessage(`よく　はたらく${member.name}！`);
+        setBattleMessage(`よく はたらく${member.name}！`);
       }
 
-      // クリティカル判定と追撃フラグ
       const critRoll = Math.floor(Math.random() * 100) + 1;
       const isCritical = critRoll <= member.crit;
       if (isCritical && member.passiveSkill === "guerrilla_extra_turn") {
         extraAttacker = member;
       }
 
-      // ダメージ計算
       const targetDef = (member.attribute === "魔法") ? bossData.mdef : bossData.def;
       const luck = Math.floor(Math.random() * 11) - 5;
       let damage = Math.floor(((currentAtk - (targetDef / 2)) * (isCritical ? 2 : 1) + luck) * damageMultiplier);
       damage = Math.max(1, damage);
 
-      // 反映
       bossData.hp -= damage;
       updateBossHPBar();
       shakeBoss();
       setBattleMessage(`${isCritical ? '気合いたっぷり！' : ''}${member.name}は、魔女に ${damage} のダメージ！`);
 
-      // 攻撃後回復スキル
       if (healAfterAttack) {
         setTimeout(() => {
           member.hp = member.maxHp;
@@ -933,20 +812,17 @@ function executeFullTurn() {
           updateStatusUI(index);
         }, 500);
       }
-      // 勇者・巫女等の共通回復（略称化せずそのまま実行）
       executeHealSkills(member);
 
       if (bossData.hp <= 0) {
         setBattleMessage("魔女に勝利した！");
         document.getElementById('battle-boss-img').classList.add('fade-out');
-      // 勝利フラグを立て、クリックイベントを書き換える
-    canAdvanceNextMap = "win"; 
-    return; // 処理を抜ける
+        canAdvanceNextMap = "win"; 
+        return; 
       }
     }, index * 1000);
   });
 
-  // 2. 遊撃家の追撃（全員の攻撃が終わった後）
   const delayForExtra = partyMembers.length * 1000;
   setTimeout(() => {
     if (extraAttacker && extraAttacker.hp > 0 && bossData.hp > 0) {
@@ -958,7 +834,6 @@ function executeFullTurn() {
     }
   }, delayForExtra);
 
-  // 3. 魔女の反撃
   const delayForWitch = delayForExtra + (extraAttacker ? 1500 : 500);
   setTimeout(() => {
     if (bossData.hp <= 0) return;
@@ -966,7 +841,6 @@ function executeFullTurn() {
   }, delayForWitch);
 }
 
-// ヘルパー関数群
 function updateBossHPBar() {
   const percent = (bossData.hp / bossData.maxHp) * 100;
   document.getElementById('boss-hp-bar').style.width = Math.max(0, percent) + "%";
@@ -1022,21 +896,20 @@ function witchAction() {
         setTimeout(() => targetImg.classList.remove('damage-shake'), 300);
       }
       target.hp -= damage;
-      setBattleMessage(`魔女の　愛の火力！ ${target.name}に ${damage} のダメージ！`);
+      setBattleMessage(`魔女の 愛の火力！ ${target.name}に ${damage} のダメージ！`);
       updateStatusUI(targetIndex);
     }
 
     setTimeout(() => {
       if (!partyMembers.some(m => m.hp > 0)) {
         setBattleMessage("パーティーは 全滅してしまった…");
-      // 敗北フラグを立て、クリックイベントを書き換える
         canAdvanceNextMap = "lose";
       } else {
         isInputPhase = true;
         currentInputIndex = 0;
         partyMembers.forEach(m => m.selectedAction = "attack");
         checkAndShowCommand();
-}
+      }
     }, 1000);
   }
 }
@@ -1064,13 +937,11 @@ let canAdvanceNextMap = null;
 
 window.addEventListener('pointerdown', () => {
     if (canAdvanceNextMap === "win") {
-        window.location.href = 'win.html'; // 勝利画面へ
+        window.location.href = 'win.html'; 
     } else if (canAdvanceNextMap === "lose") {
-        window.location.href = 'lose.html'; // 敗北画面へ
+        window.location.href = 'lose.html'; 
     }
 });
-
-
   </script>
 </body>
 </html>
